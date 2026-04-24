@@ -9,7 +9,7 @@ export const Card = ({ upcome }: { upcome: Movie }) => {
         src={`https://image.tmdb.org/t/p/w500${upcome.poster_path}`}
         alt=""
       />
-      <Star />
+      <Star movie={upcome} />
       <p>{upcome.title}</p>
     </div>
   );

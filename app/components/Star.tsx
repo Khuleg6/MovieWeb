@@ -1,10 +1,10 @@
 import React from "react";
+import { Movie } from "../types";
 
-export const Star = () => {
+export const Star = ({ movie }: { movie: Movie }) => {
   return (
     <div>
       <div className="flex gap-1.5">
-        {" "}
         <svg
           width="28"
           height="28"
@@ -20,7 +20,7 @@ export const Star = () => {
             strokeLinejoin="round"
           />
         </svg>
-        <p>0.0/0.0</p>
+        <p>{movie?.vote_average}/10.0</p>
       </div>
     </div>
   );
