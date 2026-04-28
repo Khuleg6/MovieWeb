@@ -9,8 +9,12 @@ export const Card = ({ upcome }: { upcome: Movie }) => {
         src={`https://image.tmdb.org/t/p/w500${upcome.poster_path}`}
         alt=""
       />
-      <Star movie={upcome} />
-      <p>{upcome.title}</p>
+      <div className="p-2">
+        <Star movie={upcome} />
+        <p className="text-[18px] pt-[2px] font-normal leading-7">
+          {upcome.title}
+        </p>
+      </div>
     </div>
   );
 };

@@ -4,10 +4,10 @@ import { Movie } from "../types";
 export const Star = ({ movie }: { movie: Movie }) => {
   return (
     <div>
-      <div className="flex gap-1.5">
+      <div className="flex items-center gap-1">
         <svg
-          width="28"
-          height="28"
+          width="16"
+          height="16"
           viewBox="0 0 28 28"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -20,7 +20,10 @@ export const Star = ({ movie }: { movie: Movie }) => {
             strokeLinejoin="round"
           />
         </svg>
-        <p>{movie?.vote_average}/10.0</p>
+        <span className="text-[15px] font-semibold m-0">
+          {movie?.vote_average}
+        </span>
+        <span className="text-[13px] text-gray-400 ml-0">/10</span>
       </div>
     </div>
   );

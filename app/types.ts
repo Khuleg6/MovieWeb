@@ -37,3 +37,44 @@ export type MovieSearch = {
   vote_average: number;
   vote_count: number;
 };
+export type VideoResult = {
+  iso_639_1: string;
+  iso_3166_1: string;
+  name: string;
+  key: string;
+  site: string;
+  size: number;
+  type: string; // you can narrow this later if needed
+  official: boolean;
+  published_at: string; // or Date if you parse it
+  id: string;
+};
+
+export interface MovieDetails {
+  adult: boolean;
+  backdrop_path: string | null;
+  belongs_to_collection: null | object;
+  budget: number;
+  genres: string;
+  homepage: string;
+  id: number;
+  imdb_id: string | null;
+  origin_country: string[];
+  original_language: string;
+  original_title: string;
+  overview: string;
+  popularity: number;
+  poster_path: string | null;
+
+  release_date: string;
+  revenue: number;
+  runtime: number;
+  softcore: boolean;
+
+  status: string;
+  tagline: string;
+  title: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+}

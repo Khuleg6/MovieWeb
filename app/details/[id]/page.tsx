@@ -1,26 +1,34 @@
 "use client";
-import Image from "next/image";
-import { Logo } from "./components/Logo";
-import { Iconbutton } from "./components/Iconbutton";
-import { Upcoming } from "./components/Upcoming";
-import { Card } from "./components/Card";
-import { Footer } from "./components/Footer";
-import { useEffect, useState } from "react";
-import { Genres, Movie, MovieSearch } from "./types";
-import { useParams } from "next/navigation";
-import Link from "next/link";
-import { Star } from "./components/Star";
+
+import { Card } from "@/app/components/Card";
+import { Footer } from "@/app/components/Footer";
+import { Iconbutton } from "@/app/components/Iconbutton";
+import { Logo } from "@/app/components/Logo";
+import { Upcoming } from "@/app/components/Upcoming";
+import { Genres, Movie, MovieDetails, MovieSearch } from "@/app/types";
 import axios from "axios";
-import { log } from "console";
+import { Star } from "lucide-react";
+import { useParams } from "next/navigation";
+
+import { useEffect, useState } from "react";
 
 export default function Home() {
-  const [upcoming, setUpcoming] = useState<Movie[]>([]);
-  const [popular, setPopular] = useState<Movie[]>([]);
-  const [toprated, setTopRated] = useState<Movie[]>([]);
+  const { id } = useParams();
   const [moviesearch, setMovieSearch] = useState<MovieSearch[]>([]);
   const [genres, setGenres] = useState<Genres[]>([]);
   const [isVisbile, setisVisible] = useState(false);
   const [query, setQuery] = useState("");
+  const [movie, setMovie] = useState<MovieDetails[]>([]);
+
+  useEffect(() => {
+    fetch(
+      `https://api.themoviedb.org/3/movie/${id}?api_key=e9d4d5685134cf9beea42eb980587ebd&language=en-US`,
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setMovie(data.results);
+      });
+  }, []);
 
   const searchMovies = async (q: string) => {
     if (!q) {
@@ -41,48 +49,11 @@ export default function Home() {
   };
   useEffect(() => {
     fetch(
-      "https://api.themoviedb.org/3/genre/movie/list?api_key=d67d8bebd0f4ff345f6505c99e9d0289",
+      "https://api.themoviedb.org/3/movie/{movie_id}?api_key=d67d8bebd0f4ff345f6505c99e9d0289&language=en-US",
     )
       .then((res) => res.json())
       .then((data) => setGenres(data.genres));
   }, []);
-
-  useEffect(() => {
-    fetch(
-      "https://api.themoviedb.org/3/movie/upcoming?api_key=d67d8bebd0f4ff345f6505c99e9d0289",
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setUpcoming(data.results);
-      });
-  }, []);
-  useEffect(() => {
-    fetch(
-      "https://api.themoviedb.org/3/movie/popular?api_key=d67d8bebd0f4ff345f6505c99e9d0289",
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setPopular(data.results);
-      });
-  }, []);
-  useEffect(() => {
-    fetch(
-      "https://api.themoviedb.org/3/movie/top_rated?api_key=d67d8bebd0f4ff345f6505c99e9d0289",
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setTopRated(data.results);
-      });
-  }, []);
-  // useEffect(() => {
-  //   fetch(
-  //     "https://api.themoviedb.org/3/discover/movie?api_key=d67d8bebd0f4ff345f6505c99e9d0289",
-  //   )
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setMovieSearch(data.results);
-  //     });
-  // }, []);
 
   return (
     <div className="h-[4184px] w-full">
@@ -216,102 +187,7 @@ export default function Home() {
       <div className="pt-[22px]">
         <Upcoming />
       </div>
-      <div className="flex flex-col items-center w-full pt-[52px] gap-[52px]">
-        <div className="flex justify-between w-full">
-          <div>
-            <h1 className="w-full pl-71 font-semibold tracking-[0.6px] leading-8 text-2xl">
-              Upcoming
-            </h1>
-          </div>
-          <div className=" pr-74">
-            <p className="flex items-center gap-2 w-full font-normal tracking-[0.6px] leading-8 text-ls">
-              See more
-              <svg
-                width="11"
-                height="11"
-                viewBox="0 0 11 11"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M0.5 5.16667H9.83333M9.83333 5.16667L5.16667 0.5M9.83333 5.16667L5.16667 9.83333"
-                  stroke="#18181B"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </p>
-          </div>
-        </div>
 
-        <div className="grid grid-cols-5 grid-rows-2 w-[2100px] w-fit relative gap-10 items-center justify-center px-20">
-          {upcoming.slice(0, 10).map((upcome) => (
-            <Card upcome={upcome} key={upcome.id} />
-          ))}
-        </div>
-        <div className="flex justify-between w-full">
-          <div>
-            <h1 className="w-full pl-71 font-semibold tracking-[0.6px] leading-8 text-2xl">
-              Popular
-            </h1>
-          </div>
-          <div className=" pr-74">
-            <p className="flex items-center gap-2 w-full font-normal tracking-[0.6px] leading-8 text-ls">
-              See more
-              <svg
-                width="11"
-                height="11"
-                viewBox="0 0 11 11"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M0.5 5.16667H9.83333M9.83333 5.16667L5.16667 0.5M9.83333 5.16667L5.16667 9.83333"
-                  stroke="#18181B"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </p>
-          </div>
-        </div>
-        <div className=" grid grid-cols-5 grid-rows-2 w-[2100px] w-fit gap-10 items-center justify-center px-20 ">
-          {popular.slice(0, 10).map((upcome) => (
-            <Card upcome={upcome} key={upcome.id} />
-          ))}
-        </div>
-        <div className="flex justify-between w-full">
-          <div>
-            <h1 className="w-full pl-71 font-semibold tracking-[0.6px] leading-8 text-2xl">
-              Top Rated
-            </h1>
-          </div>
-          <div className=" pr-74">
-            <p className="flex items-center gap-2 w-full font-normal tracking-[0.6px] leading-8 text-ls">
-              See more
-              <svg
-                width="11"
-                height="11"
-                viewBox="0 0 11 11"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M0.5 5.16667H9.83333M9.83333 5.16667L5.16667 0.5M9.83333 5.16667L5.16667 9.83333"
-                  stroke="#18181B"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </p>
-          </div>
-        </div>
-        <div className=" grid grid-cols-5 grid-rows-2 w-[2100px] w-fit gap-10 items-center justify-center px-20 ">
-          {toprated.slice(0, 10).map((upcome) => (
-            <Card upcome={upcome} key={upcome.id} />
-          ))}
-        </div>
-      </div>
       <div>
         <Footer />
       </div>
