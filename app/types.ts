@@ -50,12 +50,13 @@ export type VideoResult = {
   id: string;
 };
 
-export interface MovieDetails {
+export type MovieDetails = {
   adult: boolean;
   backdrop_path: string | null;
   belongs_to_collection: null | object;
   budget: number;
   genres: string;
+  name: string;
   homepage: string;
   id: number;
   imdb_id: string | null;
@@ -65,16 +66,30 @@ export interface MovieDetails {
   overview: string;
   popularity: number;
   poster_path: string | null;
-
   release_date: string;
   revenue: number;
   runtime: number;
   softcore: boolean;
-
   status: string;
   tagline: string;
   title: string;
   video: boolean;
   vote_average: number;
   vote_count: number;
-}
+};
+export type Morelike = {
+  adult: boolean;
+  backdrop_path: string | null;
+  genre_ids: number[];
+  id: number;
+  original_language: string;
+  original_title: string;
+  overview: string;
+  popularity: number;
+  poster_path: string | null;
+  release_date: string; // заримдаа "" байж болно
+  title: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+};

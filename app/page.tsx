@@ -74,15 +74,6 @@ export default function Home() {
         setTopRated(data.results);
       });
   }, []);
-  // useEffect(() => {
-  //   fetch(
-  //     "https://api.themoviedb.org/3/discover/movie?api_key=d67d8bebd0f4ff345f6505c99e9d0289",
-  //   )
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setMovieSearch(data.results);
-  //     });
-  // }, []);
 
   return (
     <div className="h-[4184px] w-full">
