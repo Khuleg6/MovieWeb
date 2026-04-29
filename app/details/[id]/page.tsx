@@ -4,6 +4,8 @@ import { Card } from "@/app/components/Card";
 import { Footer } from "@/app/components/Footer";
 import { Iconbutton } from "@/app/components/Iconbutton";
 import { Logo } from "@/app/components/Logo";
+import { Morecard } from "@/app/components/morecard";
+import { Star } from "@/app/components/Star";
 import {
   Genres,
   Morelike,
@@ -12,7 +14,7 @@ import {
   MovieSearch,
 } from "@/app/types";
 import axios from "axios";
-import { Car, Star } from "lucide-react";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 
 import { useEffect, useState } from "react";
@@ -163,46 +165,45 @@ export default function Home() {
               className={`bg-white border border-gray-50 absolute top-12 rounded-lg gap-2  w-[577px] min-h-[128px] mt-4 z-50 ${query.length > 0 ? "visible" : "invisible"} `}
             >
               {moviesearch.slice(0, 5).map((movsearch) => (
-                <div
-                  key={movsearch.id}
-                  className="flex justify-between items-end p-4 mt-1 border-b border-gray-200"
-                >
-                  <div className="flex gap-3">
-                    <div className="w-[67px] h-[100px]">
-                      <img
-                        className="w-full h-full rounded-lg "
-                        src={`https://image.tmdb.org/t/p/w500${movsearch.poster_path}`}
-                        alt=""
-                      />
+                <Link key={movsearch.id} href={`${movsearch.id}`}>
+                  <div className="flex justify-between items-end p-4 mt-1 border-b border-gray-200">
+                    <div className="flex gap-3">
+                      <div className="w-[67px] h-[100px]">
+                        <img
+                          className="w-full h-full rounded-lg "
+                          src={`https://image.tmdb.org/t/p/w500${movsearch.poster_path}`}
+                          alt=""
+                        />
+                      </div>
+                      <div className="flex flex-col">
+                        <p className="text-[20px] font-semibold leading-[28xpx]">
+                          {movsearch.title}{" "}
+                        </p>
+                        <Star movie={movsearch} />
+                        <p className="text-[14px] font-medium leading-5 pt-3">
+                          {movsearch.release_date?.split("-")[0]}
+                        </p>
+                      </div>
                     </div>
-                    <div className="flex flex-col">
-                      <p className="text-[20px] font-semibold leading-[28xpx]">
-                        {movsearch.title}{" "}
-                      </p>
-                      <Star movie={movsearch} />
-                      <p className="text-[14px] font-medium leading-5 pt-3">
-                        {movsearch.release_date?.split("-")[0]}
-                      </p>
+                    <div className=" flex items-center gap-1 cursor-pointer ">
+                      <span>See more</span>
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M3.33301 7.99967H12.6663M12.6663 7.99967L7.99967 3.33301M12.6663 7.99967L7.99967 12.6663"
+                          stroke="#18181B"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
                     </div>
                   </div>
-                  <div className=" flex items-center gap-1 cursor-pointer ">
-                    <span>See more</span>
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 16 16"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M3.33301 7.99967H12.6663M12.6663 7.99967L7.99967 3.33301M12.6663 7.99967L7.99967 12.6663"
-                        stroke="#18181B"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </div>
-                </div>
+                </Link>
               ))}
             </div>
           )}
@@ -299,7 +300,7 @@ export default function Home() {
 
       <div className=" grid grid-cols-5 w-[2100px] w-fit gap-10 items-center justify-center px-20 ">
         {morelikethis.slice(0, 5).map((upcome) => (
-          <Card upcome={upcome} key={upcome.id} />
+          <Morecard upcome={upcome} key={upcome.id} />
         ))}
       </div>
 

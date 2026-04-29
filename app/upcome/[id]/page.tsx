@@ -1,21 +1,21 @@
 "use client";
 import Image from "next/image";
-import { Logo } from "./components/Logo";
-import { Iconbutton } from "./components/Iconbutton";
-import { Upcoming } from "./components/Upcoming";
-import { Card } from "./components/Card";
-import { Footer } from "./components/Footer";
+
 import { useEffect, useState } from "react";
-import { Genres, Movie, MovieSearch } from "./types";
+
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { Star } from "./components/Star";
+
 import axios from "axios";
 import { log } from "console";
-import { PROXY_FILENAME } from "next/dist/lib/constants";
+import { Genres, Movie, MovieSearch } from "@/app/types";
+import { Logo } from "@/app/components/Logo";
+import { Iconbutton } from "@/app/components/Iconbutton";
+import { Upcoming } from "@/app/components/Upcoming";
+import { Card } from "@/app/components/Card";
+import { Footer } from "@/app/components/Footer";
 
 export default function Home() {
-  const MOVIES_PER_PAGE = 10;
   const [upcoming, setUpcoming] = useState<Movie[]>([]);
   const [popular, setPopular] = useState<Movie[]>([]);
   const [toprated, setTopRated] = useState<Movie[]>([]);
@@ -23,16 +23,10 @@ export default function Home() {
   const [genres, setGenres] = useState<Genres[]>([]);
   const [isVisbile, setisVisible] = useState(false);
   const [query, setQuery] = useState("");
-  const [skip, setSkip] = useState(0);
-  const [total, setTotal] = useState(0);
-
-  const totalpages = Math.ceil(total / MOVIES_PER_PAGE);
-  const currentpage = skip / MOVIES_PER_PAGE + 1;
 
   const searchMovies = async (q: string) => {
     if (!q) {
       setMovieSearch([]);
-      setTotal(q.)
       return;
     }
     try {
@@ -62,8 +56,6 @@ export default function Home() {
       .then((res) => res.json())
       .then((data) => {
         setUpcoming(data.results);
-         setTotal(data.results);
-        setSkip(data.skip);
       });
   }, []);
   useEffect(() => {
@@ -215,9 +207,7 @@ export default function Home() {
         </div>
         <Iconbutton />
       </div>
-      <div className="pt-[22px]">
-        <Upcoming />
-      </div>
+
       <div className="flex flex-col items-center w-full pt-[52px] gap-[52px]">
         <div className="flex justify-between w-full">
           <div>
@@ -251,93 +241,7 @@ export default function Home() {
             <Card upcome={upcome} key={upcome.id} />
           ))}
         </div>
-        <div className="flex justify-between w-full">
-          <div>
-            <h1 className="w-full pl-71 font-semibold tracking-[0.6px] leading-8 text-2xl">
-              Popular
-            </h1>
-          </div>
-          <div className=" pr-74">
-            <p className="flex items-center gap-2 w-full font-normal tracking-[0.6px] leading-8 text-ls">
-              See more
-              <svg
-                width="11"
-                height="11"
-                viewBox="0 0 11 11"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M0.5 5.16667H9.83333M9.83333 5.16667L5.16667 0.5M9.83333 5.16667L5.16667 9.83333"
-                  stroke="#18181B"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </p>
-          </div>
-        </div>
-        <div className=" grid grid-cols-5 grid-rows-2 w-[2100px] w-fit gap-10 items-center justify-center px-20 ">
-          {popular.slice(0, 10).map((upcome) => (
-            <Card upcome={upcome} key={upcome.id} />
-          ))}
-        </div>
-        <div className="flex justify-between w-full">
-          <div>
-            <h1 className="w-full pl-71 font-semibold tracking-[0.6px] leading-8 text-2xl">
-              Top Rated
-            </h1>
-          </div>
-          <div className=" pr-74">
-            <p className="flex items-center gap-2 w-full font-normal tracking-[0.6px] leading-8 text-ls">
-              See more
-              <svg
-                width="11"
-                height="11"
-                viewBox="0 0 11 11"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M0.5 5.16667H9.83333M9.83333 5.16667L5.16667 0.5M9.83333 5.16667L5.16667 9.83333"
-                  stroke="#18181B"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </p>
-          </div>
-        </div>
-        <div className=" grid grid-cols-5 grid-rows-2 w-[2100px] w-fit gap-10 items-center justify-center px-20 ">
-          {toprated.slice(0, 10).map((upcome) => (
-            <Card upcome={upcome} key={upcome.id} />
-          ))}
-        </div>
       </div>
-                <button
-            disabled={currentpage === 1}
-            onClick={() => {
-              setSkip(skip - MOVIES_PER_PAGE);
-            }}
-            className="rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-700 shadow-sm transition-colors hover:bg-zinc-50 disabled:cursor-not-allowed disabled:opacity-40 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800"
-          >
-            &larr; Өмнөх
-          </button>
-          <span className="text-sm text-zinc-500 dark:text-zinc-400">
-            {/* TODO 14: Хуудасны дугаар харуулах */}
-            {/* Хуудас {Math.floor(skip / PRODUCTS_PER_PAGE) + 1} / {Math.ceil(total / PRODUCTS_PER_PAGE)} */}
-            Хуудас {currentpage} / {totalpages}
-          </span>
-          {/* TODO: onClick={handleNext} disabled={skip + PRODUCTS_PER_PAGE >= total} холбох */}
-          <button
-            disabled={currentpage === totalpages}
-            onClick={() => {
-              setSkip(skip + MOVIES_PER_PAGE);
-            }}
-            className="rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-700 shadow-sm transition-colors hover:bg-zinc-50 disabled:cursor-not-allowed disabled:opacity-40 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800"
-          >
-            Дараах &rarr;
-          </button>
       <div>
         <Footer />
       </div>
