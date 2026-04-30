@@ -7,15 +7,12 @@ import { Card } from "./components/Card";
 import { Footer } from "./components/Footer";
 import { useEffect, useState } from "react";
 import { Genres, Movie, MovieSearch } from "./types";
-import { useParams } from "next/navigation";
+
 import Link from "next/link";
 import { Star } from "./components/Star";
 import axios from "axios";
-import { log } from "console";
-import { PROXY_FILENAME } from "next/dist/lib/constants";
 
 export default function Home() {
-  const MOVIES_PER_PAGE = 10;
   const [upcoming, setUpcoming] = useState<Movie[]>([]);
   const [popular, setPopular] = useState<Movie[]>([]);
   const [toprated, setTopRated] = useState<Movie[]>([]);
@@ -23,16 +20,11 @@ export default function Home() {
   const [genres, setGenres] = useState<Genres[]>([]);
   const [isVisbile, setisVisible] = useState(false);
   const [query, setQuery] = useState("");
-  const [skip, setSkip] = useState(0);
-  const [total, setTotal] = useState(0);
-
-  const totalpages = Math.ceil(total / MOVIES_PER_PAGE);
-  const currentpage = skip / MOVIES_PER_PAGE + 1;
 
   const searchMovies = async (q: string) => {
     if (!q) {
       setMovieSearch([]);
-      setTotal(q.)
+
       return;
     }
     try {
@@ -62,8 +54,6 @@ export default function Home() {
       .then((res) => res.json())
       .then((data) => {
         setUpcoming(data.results);
-         setTotal(data.results);
-        setSkip(data.skip);
       });
   }, []);
   useEffect(() => {
@@ -155,7 +145,7 @@ export default function Home() {
                 setisVisible(false);
               }
             }}
-            className=" border h-[36px] rounded-lg border-gray-200 w-[379px] px-[12px]"
+            className=" border h-[36px] rounded-lg border-gray-200 w-[379px] px-[12px] outline-0"
           ></input>
           {moviesearch.length === 0 && query !== "" ? (
             <div
@@ -226,7 +216,10 @@ export default function Home() {
             </h1>
           </div>
           <div className=" pr-74">
-            <p className="flex items-center gap-2 w-full font-normal tracking-[0.6px] leading-8 text-ls">
+            <Link
+              href={`/movies/upcoming`}
+              className="flex items-center gap-2 w-full font-normal tracking-[0.6px] leading-8 text-ls"
+            >
               See more
               <svg
                 width="11"
@@ -242,7 +235,7 @@ export default function Home() {
                   strokeLinejoin="round"
                 />
               </svg>
-            </p>
+            </Link>
           </div>
         </div>
 
@@ -258,7 +251,10 @@ export default function Home() {
             </h1>
           </div>
           <div className=" pr-74">
-            <p className="flex items-center gap-2 w-full font-normal tracking-[0.6px] leading-8 text-ls">
+            <Link
+              href={`/movies/popular`}
+              className="flex items-center gap-2 w-full font-normal tracking-[0.6px] leading-8 text-ls"
+            >
               See more
               <svg
                 width="11"
@@ -274,7 +270,7 @@ export default function Home() {
                   strokeLinejoin="round"
                 />
               </svg>
-            </p>
+            </Link>
           </div>
         </div>
         <div className=" grid grid-cols-5 grid-rows-2 w-[2100px] w-fit gap-10 items-center justify-center px-20 ">
@@ -289,7 +285,10 @@ export default function Home() {
             </h1>
           </div>
           <div className=" pr-74">
-            <p className="flex items-center gap-2 w-full font-normal tracking-[0.6px] leading-8 text-ls">
+            <Link
+              href={`/movies/toprated`}
+              className="flex items-center gap-2 w-full font-normal tracking-[0.6px] leading-8 text-ls"
+            >
               See more
               <svg
                 width="11"
@@ -305,7 +304,7 @@ export default function Home() {
                   strokeLinejoin="round"
                 />
               </svg>
-            </p>
+            </Link>
           </div>
         </div>
         <div className=" grid grid-cols-5 grid-rows-2 w-[2100px] w-fit gap-10 items-center justify-center px-20 ">
@@ -314,30 +313,7 @@ export default function Home() {
           ))}
         </div>
       </div>
-                <button
-            disabled={currentpage === 1}
-            onClick={() => {
-              setSkip(skip - MOVIES_PER_PAGE);
-            }}
-            className="rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-700 shadow-sm transition-colors hover:bg-zinc-50 disabled:cursor-not-allowed disabled:opacity-40 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800"
-          >
-            &larr; Өмнөх
-          </button>
-          <span className="text-sm text-zinc-500 dark:text-zinc-400">
-            {/* TODO 14: Хуудасны дугаар харуулах */}
-            {/* Хуудас {Math.floor(skip / PRODUCTS_PER_PAGE) + 1} / {Math.ceil(total / PRODUCTS_PER_PAGE)} */}
-            Хуудас {currentpage} / {totalpages}
-          </span>
-          {/* TODO: onClick={handleNext} disabled={skip + PRODUCTS_PER_PAGE >= total} холбох */}
-          <button
-            disabled={currentpage === totalpages}
-            onClick={() => {
-              setSkip(skip + MOVIES_PER_PAGE);
-            }}
-            className="rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-700 shadow-sm transition-colors hover:bg-zinc-50 disabled:cursor-not-allowed disabled:opacity-40 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800"
-          >
-            Дараах &rarr;
-          </button>
+
       <div>
         <Footer />
       </div>

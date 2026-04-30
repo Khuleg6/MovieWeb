@@ -4,7 +4,6 @@ import { Card } from "@/app/components/Card";
 import { Footer } from "@/app/components/Footer";
 import { Iconbutton } from "@/app/components/Iconbutton";
 import { Logo } from "@/app/components/Logo";
-import { Morecard } from "@/app/components/morecard";
 import { Star } from "@/app/components/Star";
 import {
   Genres,
@@ -85,7 +84,9 @@ export default function Home() {
   return (
     <div className=" w-full flex just-center flex-col items-center">
       <div className="w-full px-16 flex justify-between  items-center pt-4">
-        <Logo isDark={false} />
+        <Link href={"/"}>
+          <Logo isDark={false} />
+        </Link>
         <div className="gap-3 flex ">
           <button
             onClick={() => {
@@ -272,7 +273,7 @@ export default function Home() {
           <div className="flex justify-between pb-10 w-[1660px]">
             <div>
               <h1 className="w-full font-semibold tracking-[0.6px] leading-8 text-2xl">
-                Popular
+                More Like this
               </h1>
             </div>
             <div className="">
@@ -300,7 +301,7 @@ export default function Home() {
 
       <div className=" grid grid-cols-5 w-[2100px] w-fit gap-10 items-center justify-center px-20 ">
         {morelikethis.slice(0, 5).map((upcome) => (
-          <Morecard upcome={upcome} key={upcome.id} />
+          <Card upcome={upcome} key={upcome.id} />
         ))}
       </div>
 

@@ -11,18 +11,36 @@ import { log } from "console";
 import { Genres, Movie, MovieSearch } from "@/app/types";
 import { Logo } from "@/app/components/Logo";
 import { Iconbutton } from "@/app/components/Iconbutton";
-import { Upcoming } from "@/app/components/Upcoming";
+
 import { Card } from "@/app/components/Card";
 import { Footer } from "@/app/components/Footer";
+import { Upcoming } from "@/app/components/Upcoming";
+import { url } from "inspector";
 
 export default function Home() {
-  const [upcoming, setUpcoming] = useState<Movie[]>([]);
-  const [popular, setPopular] = useState<Movie[]>([]);
-  const [toprated, setTopRated] = useState<Movie[]>([]);
+  const [movies, setMovies] = useState<Movie[]>([]);
+
   const [moviesearch, setMovieSearch] = useState<MovieSearch[]>([]);
   const [genres, setGenres] = useState<Genres[]>([]);
   const [isVisbile, setisVisible] = useState(false);
   const [query, setQuery] = useState("");
+  const { type }: { type: "upcoming" | "popular" | "toprated" } = useParams();
+
+  const pageInfo = {
+    upcoming: {
+      url: "/movie/upcoming",
+      title: "upcoming",
+    },
+    popular: {
+      url: "/movie/popular",
+      title: "popular",
+    },
+    toprated: {
+      url: "/movie/toprated",
+      title: "toprated",
+    },
+  };
+  const page = pageInfo[type] || null;
 
   const searchMovies = async (q: string) => {
     if (!q) {
@@ -55,7 +73,7 @@ export default function Home() {
     )
       .then((res) => res.json())
       .then((data) => {
-        setUpcoming(data.results);
+        setMovies(data.results);
       });
   }, []);
   useEffect(() => {
@@ -64,7 +82,7 @@ export default function Home() {
     )
       .then((res) => res.json())
       .then((data) => {
-        setPopular(data.results);
+        setMovies(data.results);
       });
   }, []);
   useEffect(() => {
@@ -73,7 +91,7 @@ export default function Home() {
     )
       .then((res) => res.json())
       .then((data) => {
-        setTopRated(data.results);
+        setMovies(data.results);
       });
   }, []);
 
@@ -237,7 +255,7 @@ export default function Home() {
         </div>
 
         <div className="grid grid-cols-5 grid-rows-2 w-[2100px] w-fit relative gap-10 items-center justify-center px-20">
-          {upcoming.slice(0, 10).map((upcome) => (
+          {movies.map((upcome) => (
             <Card upcome={upcome} key={upcome.id} />
           ))}
         </div>

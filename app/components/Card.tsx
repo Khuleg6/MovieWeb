@@ -5,7 +5,7 @@ import { Star } from "./Star";
 export const Card = ({ upcome }: { upcome: Movie }) => {
   return (
     <Link
-      href={`details/${upcome.id}`}
+      href={`/details/${upcome.id}`}
       className="w-[300.73px] rounded-xl h-[480px] overflow-hidden bg-gray-100"
     >
       <img
