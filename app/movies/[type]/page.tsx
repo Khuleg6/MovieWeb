@@ -1,21 +1,14 @@
 "use client";
-import Image from "next/image";
-
 import { useEffect, useState } from "react";
-
 import { useParams } from "next/navigation";
 import Link from "next/link";
-
 import axios from "axios";
-import { log } from "console";
 import { Genres, Movie, MovieSearch } from "@/app/types";
 import { Logo } from "@/app/components/Logo";
 import { Iconbutton } from "@/app/components/Iconbutton";
-
 import { Card } from "@/app/components/Card";
 import { Footer } from "@/app/components/Footer";
-import { Upcoming } from "@/app/components/Upcoming";
-import { url } from "inspector";
+import { Paginationultra } from "@/app/components/pagination";
 
 export default function Home() {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -25,22 +18,7 @@ export default function Home() {
   const [isVisbile, setisVisible] = useState(false);
   const [query, setQuery] = useState("");
   const { type }: { type: "upcoming" | "popular" | "toprated" } = useParams();
-
-  const pageInfo = {
-    upcoming: {
-      url: "/movie/upcoming",
-      title: "upcoming",
-    },
-    popular: {
-      url: "/movie/popular",
-      title: "popular",
-    },
-    toprated: {
-      url: "/movie/toprated",
-      title: "toprated",
-    },
-  };
-  const page = pageInfo[type] || null;
+  const [page, setPage] = useState(1);
 
   const searchMovies = async (q: string) => {
     if (!q) {
@@ -59,6 +37,15 @@ export default function Home() {
       console.error(err);
     }
   };
+  const titlechange = () => {
+    if (type === "upcoming") {
+      return <p>Upcoming</p>;
+    } else if (type === "popular") {
+      return <p>Popular</p>;
+    } else if (type === "toprated") {
+      return <p>Top Rated</p>;
+    }
+  };
   useEffect(() => {
     fetch(
       "https://api.themoviedb.org/3/genre/movie/list?api_key=d67d8bebd0f4ff345f6505c99e9d0289",
@@ -66,37 +53,18 @@ export default function Home() {
       .then((res) => res.json())
       .then((data) => setGenres(data.genres));
   }, []);
+  useEffect(() => {
+    if (!type) return;
 
-  useEffect(() => {
     fetch(
-      "https://api.themoviedb.org/3/movie/upcoming?api_key=d67d8bebd0f4ff345f6505c99e9d0289",
+      `https://api.themoviedb.org/3/movie/${type === "toprated" ? "top_rated" : type}?api_key=d67d8bebd0f4ff345f6505c99e9d0289&page=${page}`,
     )
       .then((res) => res.json())
-      .then((data) => {
-        setMovies(data.results);
-      });
-  }, []);
-  useEffect(() => {
-    fetch(
-      "https://api.themoviedb.org/3/movie/popular?api_key=d67d8bebd0f4ff345f6505c99e9d0289",
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setMovies(data.results);
-      });
-  }, []);
-  useEffect(() => {
-    fetch(
-      "https://api.themoviedb.org/3/movie/top_rated?api_key=d67d8bebd0f4ff345f6505c99e9d0289",
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setMovies(data.results);
-      });
-  }, []);
+      .then((data) => setMovies(data.results));
+  }, [type, page]);
 
   return (
-    <div className="h-[4184px] w-full">
+    <div className=" w-full">
       <div className="w-full px-16 flex justify-between  items-center pt-4">
         <Logo isDark={false} />
         <div className="gap-3 flex ">
@@ -230,27 +198,8 @@ export default function Home() {
         <div className="flex justify-between w-full">
           <div>
             <h1 className="w-full pl-71 font-semibold tracking-[0.6px] leading-8 text-2xl">
-              Upcoming
+              {titlechange()}
             </h1>
-          </div>
-          <div className=" pr-74">
-            <p className="flex items-center gap-2 w-full font-normal tracking-[0.6px] leading-8 text-ls">
-              See more
-              <svg
-                width="11"
-                height="11"
-                viewBox="0 0 11 11"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M0.5 5.16667H9.83333M9.83333 5.16667L5.16667 0.5M9.83333 5.16667L5.16667 9.83333"
-                  stroke="#18181B"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </p>
           </div>
         </div>
 
@@ -259,6 +208,9 @@ export default function Home() {
             <Card upcome={upcome} key={upcome.id} />
           ))}
         </div>
+      </div>
+      <div>
+        <Paginationultra page={page} setPage={setPage} />
       </div>
       <div>
         <Footer />
