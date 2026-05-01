@@ -10,7 +10,7 @@ export const Card = ({ upcome }: { upcome: Movie }) => {
     >
       <img
         className="w-full h-[340px] object-cover"
-        src={`https://image.tmdb.org/t/p/w500${upcome.poster_path}`}
+        src={`https://image.tmdb.org/t/p/w342${upcome.poster_path}`}
         alt=""
       />
       <div className="p-2">

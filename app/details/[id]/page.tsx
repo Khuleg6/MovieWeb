@@ -5,6 +5,7 @@ import { Footer } from "@/app/components/Footer";
 import { Iconbutton } from "@/app/components/Iconbutton";
 import { Logo } from "@/app/components/Logo";
 import { Star } from "@/app/components/Star";
+
 import {
   Genres,
   Morelike,
@@ -46,6 +47,15 @@ export default function Home() {
         setmGenre(data.genres);
       });
   }, []);
+  // useEffect(() => {
+  //   fetch(`https://www.vidking.net/embed/movie/${movie?.id}`)
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setMovie(data);
+  //       setmGenre(data.genres);
+  //     });
+  // }, []);
+
   useEffect(() => {
     fetch(
       `https://api.themoviedb.org/3/movie/${id}/similar?api_key=d67d8bebd0f4ff345f6505c99e9d0289`,
@@ -217,8 +227,8 @@ export default function Home() {
             <p className="text-4xl font-bold leading-10">
               {movie?.original_title}
             </p>
-            <p className="text-[18px] font-normal leading-7">
-              2024.11.26 · {formatRuntime(movie?.runtime)}
+            <p className="text-[18px] w-[500px] font-normal leading-7">
+              {movie?.release_date} · {formatRuntime(movie?.runtime)}
             </p>
           </div>
           <div className="flex flex-col items-start">
@@ -227,9 +237,9 @@ export default function Home() {
               <Star />
             </div>
             <div className="flex h-12 items-center gap-1">
-              <p>6.9/10</p>
+              <p>{movie?.vote_average.toFixed(1)}/10</p>
               <div>
-                <p>37k</p>
+                <p>{movie?.vote_count}K</p>
               </div>
             </div>
           </div>
@@ -237,13 +247,19 @@ export default function Home() {
         <div className="flex gap-10">
           <img
             src={`https://image.tmdb.org/t/p/w500${movie?.poster_path}`}
-            className="h-[428px] w-[290px]"
+            className="h-[528px] w-[390px]"
             alt=""
           />
-          <div className="bg-cyan-700 h-[428px] w-[760px]"></div>
+
+          <iframe
+            src={"https://www.vidking.net/embed/movie/" + id}
+            width="100%"
+            height="600"
+            allowFullScreen
+          ></iframe>
         </div>
       </div>
-      <div className="flex flex-col items-start gap-10">
+      <div className="flex w-fit flex-col items-start gap-10">
         <div className="mt-8 flex gap-2">
           {mgenre.map((genre) => (
             <div key={genre.id}>
@@ -253,20 +269,21 @@ export default function Home() {
             </div>
           ))}
         </div>
-        <p>{movie?.overview}</p>
+        <p className="w-[1080px] flex justify-start">{movie?.overview}</p>
         <div className="flex flex-col items-start gap-5">
-          <div className="flex gap-4">
-            <p className="font-bold">Director</p>
-            <p>Unknown</p>
-          </div>
-          <div>
+          <div className="flex flex-col gap-4">
+            <div className="flex gap-4">
+              <p className="font-bold">Director</p>
+              <p>Unknown</p>
+            </div>
+
             <div className="flex gap-4">
               <p className="font-bold">Writers</p>
               <p>Unknown</p>
             </div>
             <div className="flex gap-4">
               <p className="font-bold">Stars</p>
-              <p>uknown</p>
+              <p>Unknown</p>
             </div>
           </div>
 

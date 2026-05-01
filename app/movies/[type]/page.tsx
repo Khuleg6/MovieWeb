@@ -66,7 +66,9 @@ export default function Home() {
   return (
     <div className=" w-full">
       <div className="w-full px-16 flex justify-between  items-center pt-4">
-        <Logo isDark={false} />
+        <Link href="/">
+          <Logo isDark={false} />
+        </Link>
         <div className="gap-3 flex ">
           <button
             onClick={() => {
@@ -209,7 +211,7 @@ export default function Home() {
           ))}
         </div>
       </div>
-      <div>
+      <div className="pt-10 flex justify-end pr-40">
         <Paginationultra page={page} setPage={setPage} />
       </div>
       <div>

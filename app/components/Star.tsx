@@ -21,7 +21,7 @@ export const Star = ({ movie }: { movie: Movie }) => {
           />
         </svg>
         <span className="text-[15px] font-semibold m-0">
-          {movie?.vote_average}
+          {movie?.vote_average.toFixed(1)}
         </span>
         <span className="text-[13px] text-gray-400 ml-0">/10</span>
       </div>
