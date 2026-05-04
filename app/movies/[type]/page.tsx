@@ -9,6 +9,7 @@ import { Iconbutton } from "@/app/components/Iconbutton";
 import { Card } from "@/app/components/Card";
 import { Footer } from "@/app/components/Footer";
 import { Paginationultra } from "@/app/components/pagination";
+import { Star } from "lucide-react";
 
 export default function Home() {
   const [movies, setMovies] = useState<Movie[]>([]);
