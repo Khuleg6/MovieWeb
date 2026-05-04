@@ -25,7 +25,7 @@ export default function Home() {
   const [genres, setGenres] = useState<Genres[]>([]);
   const [isVisbile, setisVisible] = useState(false);
   const [query, setQuery] = useState("");
-  const [movie, setMovie] = useState<MovieDetails | null>(null);
+  const [movie, setMovie] = useState<Movie | null>(null);
   const [morelikethis, setMorelikethis] = useState<Morelike[]>([]);
   const [mgenre, setmGenre] = useState<MovieDetails[]>([]);
 
@@ -129,27 +129,28 @@ export default function Home() {
             <hr className="border border-[#e4e4e7] my-4"></hr>
             <div className="flex  flex-wrap gap-4">
               {genres.map((g) => (
-                // <Link key={g.id} href={`/genre/${g.id}`}>
-                <button
-                  key={g.id}
-                  className="border border[#e4e4e7] rounded-full py-0.5 pl-2.5 flex items-center gap-2 cursor-pointer pr-2 hover: opacity-80"
-                >
-                  {g.name}
-                  <svg
-                    width="5"
-                    height="9"
-                    viewBox="0 0 5 9"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
+                <Link key={g.id} href={`/genre/${g.id}`}>
+                  <button
+                    key={g.id}
+                    className="border border[#e4e4e7] rounded-full py-0.5 pl-2.5 flex items-center gap-2 cursor-pointer pr-2 hover: opacity-80"
                   >
-                    <path
-                      d="M0.5 8.5L4.5 4.5L0.5 0.5"
-                      stroke="#09090B"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </button>
+                    {g.name}
+                    <svg
+                      width="5"
+                      height="9"
+                      viewBox="0 0 5 9"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M0.5 8.5L4.5 4.5L0.5 0.5"
+                        stroke="#09090B"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </button>
+                </Link>
               ))}
             </div>
           </div>

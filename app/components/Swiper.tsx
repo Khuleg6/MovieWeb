@@ -9,6 +9,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import axios from "axios";
+import Link from "next/link";
 
 export const SwiperM = ({ trend }: { trend: Movie }) => {
   const [trailer, setTrailer] = useState<VideoResult[]>([]);
@@ -28,18 +29,24 @@ export const SwiperM = ({ trend }: { trend: Movie }) => {
   }, []);
   return (
     <div>
-      <img
-        className="w-full h-[800px] relative object-cover object-center"
-        src={`https://image.tmdb.org/t/p/original${trend.backdrop_path}`}
-        alt=""
-      />
+      <Link href={`/details/${trend.id}`}>
+        <img
+          className="w-full h-[800px] relative object-cover object-center"
+          src={`https://image.tmdb.org/t/p/original${trend.backdrop_path}`}
+          alt=""
+        />
+      </Link>
+
       <div className="absolute z-2 left-[140px] top-[258px] gap-10">
         <p className="text-white font-normal leading-6 text-[18px]">
           Now Playing:
         </p>
-        <h1 className="text-white pb-3 font-bold text-5xl leading-10">
+        <Link
+          href={`/details/${trend.id}`}
+          className="text-white pb-3 font-bold text-5xl leading-10"
+        >
           {trend.title}
-        </h1>
+        </Link>
         <div className="flex items-center gap-1">
           <svg
             width="25"

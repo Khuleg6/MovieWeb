@@ -1,30 +1,31 @@
 "use client";
-import Image from "next/image";
-import { Logo } from "./components/Logo";
-import { Iconbutton } from "./components/Iconbutton";
-import { Upcoming } from "./components/Upcoming";
-import { Card } from "./components/Card";
-import { Footer } from "./components/Footer";
 import { useEffect, useState } from "react";
-import { Genres, Movie, MovieSearch } from "./types";
-
+import { useParams } from "next/navigation";
 import Link from "next/link";
-import { Star } from "./components/Star";
 import axios from "axios";
+import { Genres, Movie, MovieSearch } from "@/app/types";
+import { Logo } from "@/app/components/Logo";
+import { Iconbutton } from "@/app/components/Iconbutton";
+import { Card } from "@/app/components/Card";
+import { Footer } from "@/app/components/Footer";
+import { Paginationultra } from "@/app/components/pagination";
+import { Star } from "@/app/components/Star";
 
 export default function Home() {
-  const [toprated, setTopRated] = useState<Movie[]>([]);
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
+
   const [moviesearch, setMovieSearch] = useState<MovieSearch[]>([]);
   const [genres, setGenres] = useState<Genres[]>([]);
   const [isVisbile, setisVisible] = useState(false);
   const [query, setQuery] = useState("");
-  const [upcoming, setUpcoming] = useState<Movie[]>([]);
-  const [popular, setPopular] = useState<Movie[]>([]);
+
+  const [page, setPage] = useState(1);
+  const { id } = useParams();
 
   const searchMovies = async (q: string) => {
     if (!q) {
       setMovieSearch([]);
-
       return;
     }
     try {
@@ -39,6 +40,16 @@ export default function Home() {
       console.error(err);
     }
   };
+  const toggleGenre = (genreId: number) => {
+    setSelectedGenres(
+      (prev) =>
+        prev.includes(genreId)
+          ? prev.filter((id) => id !== genreId) // Байвал хасна
+          : [...prev, genreId], // Байхгүй бол нэмнэ
+    );
+    setPage(1); // Төрөл солигдоход хуудсыг 1 болгоно
+  };
+
   useEffect(() => {
     fetch(
       "https://api.themoviedb.org/3/genre/movie/list?api_key=d67d8bebd0f4ff345f6505c99e9d0289",
@@ -46,39 +57,37 @@ export default function Home() {
       .then((res) => res.json())
       .then((data) => setGenres(data.genres));
   }, []);
+  useEffect(() => {
+    const fetchMoviesByGenres = async () => {
+      // Сонгогдсон төрөл байхгүй бол popular кино харуулж болно эсвэл хоосон орхиж болно
+      const genreString = selectedGenres.join(",");
 
-  useEffect(() => {
-    fetch(
-      "https://api.themoviedb.org/3/movie/upcoming?api_key=d67d8bebd0f4ff345f6505c99e9d0289",
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setUpcoming(data.results);
-      });
-  }, []);
-  useEffect(() => {
-    fetch(
-      "https://api.themoviedb.org/3/movie/popular?api_key=d67d8bebd0f4ff345f6505c99e9d0289",
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setPopular(data.results);
-      });
-  }, []);
-  useEffect(() => {
-    fetch(
-      "https://api.themoviedb.org/3/movie/top_rated?api_key=d67d8bebd0f4ff345f6505c99e9d0289",
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setTopRated(data.results);
-      });
-  }, []);
+      try {
+        const res = await axios.get(
+          "https://api.themoviedb.org/3/discover/movie",
+          {
+            params: {
+              api_key: "d67d8bebd0f4ff345f6505c99e9d0289",
+              with_genres: genreString,
+              page: page,
+            },
+          },
+        );
+        setMovies(res.data.results);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchMoviesByGenres();
+  }, [selectedGenres, page]);
 
   return (
-    <div className="h-[4184px] w-full">
+    <div className=" w-full">
       <div className="w-full px-16 flex justify-between  items-center pt-4">
-        <Logo isDark={false} />
+        <Link href="/">
+          <Logo isDark={false} />
+        </Link>
         <div className="gap-3 flex ">
           <button
             onClick={() => {
@@ -112,7 +121,10 @@ export default function Home() {
             <div className="flex  flex-wrap gap-4">
               {genres.map((g) => (
                 <Link key={g.id} href={`/genre/${g.id}`}>
-                  <button className="border border[#e4e4e7] rounded-full py-0.5 pl-2.5 flex items-center gap-2 cursor-pointer pr-2 hover: opacity-80">
+                  <button
+                    key={g.id}
+                    className="border border[#e4e4e7] rounded-full py-0.5 pl-2.5 flex items-center gap-2 cursor-pointer pr-2 hover: opacity-80"
+                  >
                     {g.name}
                     <svg
                       width="5"
@@ -143,20 +155,13 @@ export default function Home() {
                 setisVisible(false);
               }
             }}
-            className=" border h-[36px] rounded-lg border-gray-200 w-[379px] px-[12px] outline-0"
+            className=" border h-[36px] rounded-lg border-gray-200 w-[379px] px-[12px]"
           ></input>
           {moviesearch.length === 0 && query !== "" ? (
             <div
               className={`bg-white border border-gray-50 absolute top-12 rounded-lg flex justify-center items-center mt-4 flex-col gap-2  px-4 w-[577px] h-[100px] z-50 ${query.length > 0 ? "visible" : "invisible"} `}
             >
               No results found.
-              <div>
-                <Link href={`/search/${encodeURIComponent(query)}`}>
-                  <p>
-                    See all result for <span>"{query}"</span>
-                  </p>
-                </Link>
-              </div>
             </div>
           ) : (
             <div
@@ -205,125 +210,52 @@ export default function Home() {
                   </div>
                 </Link>
               ))}
-              <Link href={`/search/${encodeURIComponent(query)}`}>
-                <p>
-                  See all result for <span>"{query}"</span>
-                </p>
-              </Link>
             </div>
           )}
         </div>
         <Iconbutton />
       </div>
-      <div className="pt-[22px]">
-        <Upcoming />
-      </div>
-      <div className="flex flex-col items-center w-full pt-[52px] gap-[52px]">
-        <div className="flex justify-between w-full">
-          <div>
-            <h1 className="w-full pl-71 font-semibold tracking-[0.6px] leading-8 text-2xl">
-              Upcoming
-            </h1>
-          </div>
-          <div className=" pr-74">
-            <Link
-              href={`/movies/upcoming`}
-              className="flex items-center gap-2 w-full font-normal tracking-[0.6px] leading-8 text-ls"
-            >
-              See more
-              <svg
-                width="11"
-                height="11"
-                viewBox="0 0 11 11"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M0.5 5.16667H9.83333M9.83333 5.16667L5.16667 0.5M9.83333 5.16667L5.16667 9.83333"
-                  stroke="#18181B"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </Link>
+
+      <div className="flex items-start w-full pt-[52px] px-16 gap-[52px]">
+        <div className="w-[500px] p-16">
+          <div>Genres</div>
+          <div>See lists of movies by genre</div>
+          <hr className="border border-[#e4e4e7] my-4"></hr>
+          <div className="flex flex-wrap gap-2.5 w-[300px]">
+            {genres.map((g) => {
+              const isActive = selectedGenres.includes(g.id); // Сонгогдсон эсэхийг шалгах
+
+              return (
+                <button
+                  key={g.id}
+                  onClick={() => toggleGenre(g.id)}
+                  className={`border rounded-full text-xs font-semibold py-1 px-4 flex items-center gap-2 cursor-pointer transition-all ${
+                    isActive
+                      ? "bg-primary text-primary-foreground border-primary" // bg-black-ийн оронд primary ашиглах
+                      : "border-border text-foreground hover:bg-accent"
+                  }`}
+                >
+                  {g.name}
+                  {isActive && <span>✕</span>}{" "}
+                  {/* Хасах тэмдэг харуулж болно */}
+                </button>
+              );
+            })}
           </div>
         </div>
 
-        <div className="grid grid-cols-5 grid-rows-2 w-[2100px] w-fit relative gap-10 items-center justify-center px-20">
-          {upcoming.slice(0, 10).map((upcome) => (
-            <Card upcome={upcome} key={upcome.id} />
-          ))}
-        </div>
-        <div className="flex justify-between w-full">
-          <div>
-            <h1 className="w-full pl-71 font-semibold tracking-[0.6px] leading-8 text-2xl">
-              Popular
-            </h1>
+        <div className=" p-16 w-full">
+          <h1 className="text-xs font-semibold mb-6">Genre: {id}</h1>
+          <div className="flex gap-10 flex-wrap">
+            {movies.slice(0, 12).map((movie) => (
+              <Card key={movie.id} upcome={movie} />
+            ))}
           </div>
-          <div className=" pr-74">
-            <Link
-              href={`/movies/popular`}
-              className="flex items-center gap-2 w-full font-normal tracking-[0.6px] leading-8 text-ls"
-            >
-              See more
-              <svg
-                width="11"
-                height="11"
-                viewBox="0 0 11 11"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M0.5 5.16667H9.83333M9.83333 5.16667L5.16667 0.5M9.83333 5.16667L5.16667 9.83333"
-                  stroke="#18181B"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </Link>
-          </div>
-        </div>
-        <div className=" grid grid-cols-5 grid-rows-2 w-[2100px] w-fit gap-10 items-center justify-center px-20 ">
-          {popular.slice(0, 10).map((upcome) => (
-            <Card upcome={upcome} key={upcome.id} />
-          ))}
-        </div>
-        <div className="flex justify-between w-full">
-          <div>
-            <h1 className="w-full pl-71 font-semibold tracking-[0.6px] leading-8 text-2xl">
-              Top Rated
-            </h1>
-          </div>
-          <div className=" pr-74">
-            <Link
-              href={`/movies/toprated`}
-              className="flex items-center gap-2 w-full font-normal tracking-[0.6px] leading-8 text-ls"
-            >
-              See more
-              <svg
-                width="11"
-                height="11"
-                viewBox="0 0 11 11"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M0.5 5.16667H9.83333M9.83333 5.16667L5.16667 0.5M9.83333 5.16667L5.16667 9.83333"
-                  stroke="#18181B"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </Link>
-          </div>
-        </div>
-        <div className=" grid grid-cols-5 grid-rows-2 w-[2100px] w-fit gap-10 items-center justify-center px-20 ">
-          {toprated.slice(0, 10).map((upcome) => (
-            <Card upcome={upcome} key={upcome.id} />
-          ))}
         </div>
       </div>
-
+      <div className="pt-10 flex justify-end pr-40">
+        <Paginationultra page={page} setPage={setPage} />
+      </div>
       <div>
         <Footer />
       </div>

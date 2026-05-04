@@ -1,68 +1,43 @@
 "use client";
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
-import Link from "next/link";
-import axios from "axios";
-import { Genres, Movie, MovieSearch } from "@/app/types";
-import { Logo } from "@/app/components/Logo";
-import { Iconbutton } from "@/app/components/Iconbutton";
 import { Card } from "@/app/components/Card";
 import { Footer } from "@/app/components/Footer";
+import { Iconbutton } from "@/app/components/Iconbutton";
+import { Logo } from "@/app/components/Logo";
 import { Paginationultra } from "@/app/components/pagination";
-import { Star } from "@/app/components/Star";
+
+import { Genres, Movie, MovieSearch } from "@/app/types";
+import axios from "axios";
+import { Star } from "lucide-react";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 export default function Home() {
-  const [movies, setMovies] = useState<Movie[]>([]);
-
   const [moviesearch, setMovieSearch] = useState<MovieSearch[]>([]);
   const [genres, setGenres] = useState<Genres[]>([]);
+  const params = useParams();
+  const searchId = decodeURIComponent(params.id as string);
   const [isVisbile, setisVisible] = useState(false);
   const [query, setQuery] = useState("");
-  const { type }: { type: "upcoming" | "popular" | "toprated" } = useParams();
   const [page, setPage] = useState(1);
 
-  const searchMovies = async (q: string) => {
-    if (!q) {
-      setMovieSearch([]);
-      return;
-    }
-    try {
-      const res = await axios.get("https://api.themoviedb.org/3/search/movie", {
-        params: {
-          api_key: "d67d8bebd0f4ff345f6505c99e9d0289",
-          query: q,
-        },
-      });
-      setMovieSearch(res.data.results);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-  const titlechange = () => {
-    if (type === "upcoming") {
-      return <p>Upcoming</p>;
-    } else if (type === "popular") {
-      return <p>Popular</p>;
-    } else if (type === "toprated") {
-      return <p>Top Rated</p>;
-    }
-  };
   useEffect(() => {
-    fetch(
-      "https://api.themoviedb.org/3/genre/movie/list?api_key=d67d8bebd0f4ff345f6505c99e9d0289",
-    )
-      .then((res) => res.json())
-      .then((data) => setGenres(data.genres));
+    axios
+      .get(
+        `https://api.themoviedb.org/3/genre/movie/list?api_key=d67d8bebd0f4ff345f6505c99e9d0289`,
+      )
+      .then((res) => setGenres(res.data.genres));
   }, []);
-  useEffect(() => {
-    if (!type) return;
 
-    fetch(
-      `https://api.themoviedb.org/3/movie/${type === "toprated" ? "top_rated" : type}?api_key=d67d8bebd0f4ff345f6505c99e9d0289&page=${page}`,
-    )
-      .then((res) => res.json())
-      .then((data) => setMovies(data.results));
-  }, [type, page]);
+  useEffect(() => {
+    if (searchId) {
+      axios
+        .get(
+          `https://api.themoviedb.org/3/search/movie?query=${searchId}&api_key=d67d8bebd0f4ff345f6505c99e9d0289&page=${page}`,
+        )
+        .then((res) => setMovieSearch(res.data.results));
+    }
+  }, [searchId, page]);
 
   return (
     <div className=" w-full">
@@ -103,10 +78,7 @@ export default function Home() {
             <div className="flex  flex-wrap gap-4">
               {genres.map((g) => (
                 <Link key={g.id} href={`/genre/${g.id}`}>
-                  <button
-                    key={g.id}
-                    className="border border[#e4e4e7] rounded-full py-0.5 pl-2.5 flex items-center gap-2 cursor-pointer pr-2 hover: opacity-80"
-                  >
+                  <button className="border border[#e4e4e7] rounded-full py-0.5 pl-2.5 flex items-center gap-2 cursor-pointer pr-2 hover: opacity-80">
                     {g.name}
                     <svg
                       width="5"
@@ -132,7 +104,7 @@ export default function Home() {
             placeholder="Search..."
             onChange={(e) => {
               setQuery(e.target.value);
-              searchMovies(e.target.value);
+
               if (isVisbile) {
                 setisVisible(false);
               }
@@ -140,10 +112,17 @@ export default function Home() {
             className=" border h-[36px] rounded-lg border-gray-200 w-[379px] px-[12px]"
           ></input>
           {moviesearch.length === 0 && query !== "" ? (
-            <div
-              className={`bg-white border border-gray-50 absolute top-12 rounded-lg flex justify-center items-center mt-4 flex-col gap-2  px-4 w-[577px] h-[100px] z-50 ${query.length > 0 ? "visible" : "invisible"} `}
-            >
-              No results found.
+            <div>
+              <div
+                className={`bg-white border border-gray-50 absolute top-12 rounded-lg flex justify-center items-center mt-4 flex-col gap-2  px-4 w-[577px] h-[100px] z-50 ${query.length > 0 ? "visible" : "invisible"} `}
+              >
+                No results found.
+              </div>
+              <Link href={`/search/${encodeURIComponent(query)}`}>
+                <p>
+                  See all result for <span>"{query}"</span>
+                </p>
+              </Link>
             </div>
           ) : (
             <div
@@ -192,28 +171,51 @@ export default function Home() {
                   </div>
                 </Link>
               ))}
+              <Link href={`/search/${encodeURIComponent(query)}`}>
+                <p>
+                  See all result for <span>"{query}"</span>
+                </p>
+              </Link>
             </div>
           )}
         </div>
         <Iconbutton />
       </div>
-
-      <div className="flex flex-col items-center w-full pt-[52px] gap-[52px]">
-        <div className="flex justify-between w-full">
-          <div>
-            <h1 className="w-full pl-71 font-semibold tracking-[0.6px] leading-8 text-2xl">
-              {titlechange()}
-            </h1>
-          </div>
+      <div className="flex pt-20 gap-7 justify-evenly ">
+        <div className="flex flex-wrap  gap-4 w-[350px] h-[350px]">
+          {genres.map((genre) => (
+            <Link
+              href={`/genre/${genre.id}`}
+              key={genre.id}
+              className="border cursor-pointer duration-300   text-xs font-semibold py-0.5 pl-2.5 pr-2 border-[#E4E4E7] rounded-full flex items-center gap-2  hover:bg-[#E4E4E7]"
+            >
+              {genre.name}
+              <svg
+                width="5"
+                height="9"
+                viewBox="0 0 5 9"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M0.5 8.5L4.5 4.5L0.5 0.5"
+                  stroke="#09090B"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </Link>
+          ))}
         </div>
 
-        <div className="grid grid-cols-5 grid-rows-2 w-[2100px] w-fit relative gap-10 items-center justify-center px-20">
-          {movies.map((upcome) => (
-            <Card upcome={upcome} key={upcome.id} />
+        <div className="grid grid-cols-4 grid-rows-2 gap-10">
+          {moviesearch.slice(0, 12).map((movie) => (
+            <Card key={movie.id} upcome={movie} size="w-[250px]" />
           ))}
         </div>
       </div>
-      <div className="pt-10 flex justify-end pr-40">
+
+      <div className="pt-10 flex justify-center ">
         <Paginationultra page={page} setPage={setPage} />
       </div>
       <div>
