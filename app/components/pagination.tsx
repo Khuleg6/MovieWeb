@@ -13,7 +13,7 @@ export const Paginationultra = ({ page, setPage }) => {
   if (page <= 2) {
     Pages = [1, 2, 3];
   } else {
-    Pages = [page - 1, page, page, +1];
+    Pages = [page - 1, page, page + 1];
   }
   const visiblePages = Array.from(new Set(Pages))
     .filter((p) => p > 0)

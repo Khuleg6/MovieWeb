@@ -10,7 +10,7 @@ export type Movie = {
   popularity: number;
   poster_path: string;
   release_date: string; // could also be Date if you parse it
-  softcore: boolean;
+
   video: boolean;
   vote_average: number;
   vote_count: number;

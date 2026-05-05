@@ -3,7 +3,7 @@ import { Logo } from "./Logo";
 
 export const Footer = () => {
   return (
-    <div className="py-[60px] w-full flex  justify-evenly items-start gap-[540px] text-white mt-10 bg-[#4338CA]">
+    <div className=" py-[60px] w-full flex  justify-evenly items-start gap-[540px] text-white mt-10 bg-[#4338CA]">
       <div className="flex flex-col gap-3">
         <Logo isDark={true} />
         <p>© 2026 Movie Z. All Rights Reserved.</p>
