@@ -1,71 +1,30 @@
+import { Stethoscope } from "lucide-react";
+import { useTheme } from "next-themes";
 import React from "react";
 
 export const Iconbutton = () => {
+  const { theme, setTheme } = useTheme();
   return (
-    <div>
+    <button
+      onClick={() => {
+        setTheme(theme === "light" ? "dark" : "light");
+      }}
+      className="flex justify-center items-center gap-2 border border-[#E4E4E7] h-8 w-8 rounded-md bg-white dark:bg-gray-900"
+    >
       <svg
-        width="40"
-        height="40"
-        viewBox="0 0 40 40"
+        width="13"
+        height="13"
+        viewBox="0 0 13 13"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <g filter="url(#filter0_d_1_3812)">
-          <path
-            d="M2 11C2 5.47715 6.47715 1 12 1H28C33.5228 1 38 5.47715 38 11V27C38 32.5228 33.5228 37 28 37H12C6.47715 37 2 32.5228 2 27V11Z"
-            fill="white"
-            shapeRendering="crispEdges"
-          />
-          <path
-            d="M12 1.5H28C33.2467 1.5 37.5 5.7533 37.5 11V27C37.5 32.2467 33.2467 36.5 28 36.5H12C6.7533 36.5 2.5 32.2467 2.5 27V11C2.5 5.7533 6.7533 1.5 12 1.5Z"
-            stroke="#E4E4E7"
-            shapeRendering="crispEdges"
-          />
-          <path
-            d="M20 13C19.2044 13.7956 18.7574 14.8748 18.7574 16C18.7574 17.1252 19.2044 18.2044 20 19C20.7957 19.7956 21.8748 20.2426 23 20.2426C24.1252 20.2426 25.2044 19.7956 26 19C26 20.1867 25.6481 21.3467 24.9888 22.3334C24.3295 23.3201 23.3925 24.0892 22.2961 24.5433C21.1997 24.9974 19.9933 25.1162 18.8295 24.8847C17.6656 24.6532 16.5965 24.0818 15.7574 23.2426C14.9182 22.4035 14.3468 21.3344 14.1153 20.1705C13.8838 19.0067 14.0026 17.8003 14.4567 16.7039C14.9109 15.6075 15.6799 14.6705 16.6666 14.0112C17.6533 13.3519 18.8133 13 20 13Z"
-            stroke="#18181B"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </g>
-        <defs>
-          <filter
-            id="filter0_d_1_3812"
-            x="0"
-            y="0"
-            width="40"
-            height="40"
-            filterUnits="userSpaceOnUse"
-            colorInterpolationFilters="sRGB"
-          >
-            <feFlood floodOpacity="0" result="BackgroundImageFix" />
-            <feColorMatrix
-              in="SourceAlpha"
-              type="matrix"
-              values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-              result="hardAlpha"
-            />
-            <feOffset dy="1" />
-            <feGaussianBlur stdDeviation="1" />
-            <feComposite in2="hardAlpha" operator="out" />
-            <feColorMatrix
-              type="matrix"
-              values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.05 0"
-            />
-            <feBlend
-              mode="normal"
-              in2="BackgroundImageFix"
-              result="effect1_dropShadow_1_3812"
-            />
-            <feBlend
-              mode="normal"
-              in="SourceGraphic"
-              in2="effect1_dropShadow_1_3812"
-              result="shape"
-            />
-          </filter>
-        </defs>
+        <path
+          d="M6.5 0.5C5.70435 1.29565 5.25736 2.37478 5.25736 3.5C5.25736 4.62522 5.70435 5.70435 6.5 6.5C7.29565 7.29565 8.37478 7.74264 9.5 7.74264C10.6252 7.74264 11.7044 7.29565 12.5 6.5C12.5 7.68669 12.1481 8.84673 11.4888 9.83342C10.8295 10.8201 9.89246 11.5892 8.7961 12.0433C7.69975 12.4974 6.49335 12.6162 5.32946 12.3847C4.16558 12.1532 3.09648 11.5818 2.25736 10.7426C1.41825 9.90353 0.846802 8.83443 0.615291 7.67054C0.38378 6.50666 0.5026 5.30026 0.956725 4.2039C1.41085 3.10754 2.17989 2.17047 3.16658 1.51118C4.15328 0.851894 5.31331 0.5 6.5 0.5Z"
+          stroke="#18181B"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
       </svg>
-    </div>
+    </button>
   );
 };

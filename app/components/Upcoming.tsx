@@ -36,7 +36,7 @@ export const Upcoming = () => {
   }, []);
 
   return (
-    <div className="pt-6">
+    <div className="">
       <Swiper
         // Модулиудаа идэвхжүүлнэ
         modules={[Navigation, Pagination, Autoplay]}

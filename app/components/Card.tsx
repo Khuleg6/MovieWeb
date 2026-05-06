@@ -6,7 +6,7 @@ export const Card = ({ upcome, size }: { upcome: Movie; size: string }) => {
   return (
     <Link
       href={`/details/${upcome.id}`}
-      className={`${size} rounded-xl h-[480px] overflow-hidden bg-gray-100`}
+      className={`${size} rounded-xl h-[480px] overflow-hidden bg-gray-100 dark:text-black bg-white`}
     >
       <img
         className="w-full h-[340px] object-cover"

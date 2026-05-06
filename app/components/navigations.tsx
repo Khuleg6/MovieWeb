@@ -6,12 +6,15 @@ import Link from "next/link";
 import { Iconbutton } from "./Iconbutton";
 import axios from "axios";
 import { Star } from "./Star";
+import { useTheme } from "next-themes";
 
 export const Navigations = () => {
   const [moviesearch, setMovieSearch] = useState<MovieSearch[]>([]);
   const [genres, setGenres] = useState<Genres[]>([]);
   const [isVisbile, setisVisible] = useState(false);
   const [query, setQuery] = useState("");
+  const { theme, setTheme } = useTheme();
+
   const searchMovies = async (q: string) => {
     if (!q) {
       setMovieSearch([]);
@@ -38,7 +41,7 @@ export const Navigations = () => {
       .then((data) => setGenres(data.genres));
   }, []);
   return (
-    <div className="px-60 w-full px-16 flex justify-between  items-center pt-4">
+    <div className="px-60 w-full flex p-8 justify-between  items-center bg-white dark:bg-gray-900">
       <Link href={"/"}>
         <Logo isDark={false} />
       </Link>
@@ -68,7 +71,7 @@ export const Navigations = () => {
         </button>
         <div
           data-shown={isVisbile}
-          className="p-5 w-[557px] bg-white border invisible opacity-0 duration-300 border-[#e4e4e7] rounded-lg z-2 items-start absolute mt-12 data-[shown=true]:visible data-[shown=true]:opacity-100 "
+          className="p-5 w-[557px] bg-white border invisible opacity-0 duration-300 border-[#e4e4e7] rounded-lg z-2 items-start absolute mt-12 data-[shown=true]:visible data-[shown=true]:opacity-100 dark:bg-black "
         >
           <div>Genres</div>
           <div>See lists of movies by genre</div>
@@ -111,13 +114,13 @@ export const Navigations = () => {
         ></input>
         {moviesearch.length === 0 && query !== "" ? (
           <div
-            className={`bg-white border border-gray-50 absolute top-12 rounded-lg flex justify-center items-center mt-4 flex-col gap-2  px-4 w-[577px] h-[100px] z-50 ${query.length > 0 ? "visible" : "invisible"} `}
+            className={`bg-white border border-gray-50 absolute top-12 rounded-lg flex justify-center items-center mt-4 flex-col gap-2  px-4 w-[577px] h-[100px] z-50 ${query.length > 0 ? "visible" : "invisible"} dark:bg-black `}
           >
             No results found.
           </div>
         ) : (
           <div
-            className={`bg-white border border-gray-50 absolute top-12 rounded-lg gap-2  w-[577px] min-h-[128px] mt-4 z-50 ${query.length > 0 ? "visible" : "invisible"} `}
+            className={`bg-white border border-gray-50 absolute top-12 rounded-lg gap-2  w-[577px] min-h-[128px] mt-4 z-50 ${query.length > 0 ? "visible" : "invisible"} dark:bg-black`}
           >
             {moviesearch.slice(0, 5).map((movsearch) => (
               <Link

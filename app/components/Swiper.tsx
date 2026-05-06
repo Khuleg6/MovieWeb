@@ -75,7 +75,7 @@ export const SwiperM = ({ trend }: { trend: Movie }) => {
         </p>
         <Dialog>
           <DialogTrigger asChild>
-            <button className="h-[40px] py-[8px] px-[16px] bg-white rounded-md flex items-center gap-1.5">
+            <button className="h-[40px] py-[8px] px-[16px] bg-white rounded-md flex items-center gap-1.5 dark:bg-black ">
               <svg
                 width="11"
                 height="13"

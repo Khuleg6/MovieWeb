@@ -45,9 +45,9 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="h-[4184px] w-full">
+    <div className="w-full">
       <Navigations />
-      <div className="pt-[22px]">
+      <div className="">
         <Upcoming />
       </div>
       <div className="flex flex-col items-center w-full pt-[52px] gap-[52px]">

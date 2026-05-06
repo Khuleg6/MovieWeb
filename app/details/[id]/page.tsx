@@ -145,7 +145,7 @@ export default function Home() {
       </div>
 
       <div className=" grid grid-cols-5 mx-auto w-fit gap-10 items-center justify-center px-20 ">
-        {morelikethis?.slice(0, 5).map((upcome) => (
+        {morelikethis.slice(0, 5).map((upcome) => (
           <Card size="w-[280px]" upcome={upcome} key={upcome.id} />
         ))}
       </div>
