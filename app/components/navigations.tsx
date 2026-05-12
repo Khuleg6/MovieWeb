@@ -41,7 +41,7 @@ export const Navigations = () => {
       .then((data) => setGenres(data.genres));
   }, []);
   return (
-    <div className="px-60 w-full flex p-8 justify-between  items-center bg-white dark:bg-gray-900">
+    <div className=" px-60 w-full flex p-8 justify-between  items-center bg-white dark:bg-gray-900">
       <Link href={"/"}>
         <Logo isDark={false} />
       </Link>
@@ -74,7 +74,7 @@ export const Navigations = () => {
               width="16"
               height="16"
               viewBox="0 0 16 16"
-              fill="fill"
+              fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
