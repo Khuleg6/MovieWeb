@@ -5,6 +5,8 @@ import { Footer } from "@/app/components/Footer";
 import { Navigations } from "@/app/components/navigations";
 import { Star } from "@/app/components/Star";
 import { Morelike, Movie, MovieDetails, MovieSearch } from "@/app/types";
+import Link from "next/link";
+
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 export default function Home() {
@@ -121,7 +123,7 @@ export default function Home() {
                 More Like this
               </h1>
             </div>
-            <div className="">
+            <Link href={`/similar/${id}`} className="">
               <p className="flex items-center gap-2 w-full font-normal tracking-[0.6px] leading-8 text-ls">
                 See more
                 <svg
@@ -139,7 +141,7 @@ export default function Home() {
                   />
                 </svg>
               </p>
-            </div>
+            </Link>
           </div>
         </div>
       </div>

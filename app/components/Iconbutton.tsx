@@ -11,20 +11,46 @@ export const Iconbutton = () => {
       }}
       className="flex justify-center items-center gap-2 border border-[#E4E4E7] h-8 w-8 rounded-md bg-white dark:bg-gray-900"
     >
-      <svg
-        width="13"
-        height="13"
-        viewBox="0 0 13 13"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M6.5 0.5C5.70435 1.29565 5.25736 2.37478 5.25736 3.5C5.25736 4.62522 5.70435 5.70435 6.5 6.5C7.29565 7.29565 8.37478 7.74264 9.5 7.74264C10.6252 7.74264 11.7044 7.29565 12.5 6.5C12.5 7.68669 12.1481 8.84673 11.4888 9.83342C10.8295 10.8201 9.89246 11.5892 8.7961 12.0433C7.69975 12.4974 6.49335 12.6162 5.32946 12.3847C4.16558 12.1532 3.09648 11.5818 2.25736 10.7426C1.41825 9.90353 0.846802 8.83443 0.615291 7.67054C0.38378 6.50666 0.5026 5.30026 0.956725 4.2039C1.41085 3.10754 2.17989 2.17047 3.16658 1.51118C4.15328 0.851894 5.31331 0.5 6.5 0.5Z"
-          stroke="#18181B"
+      {" "}
+      {theme === "light" ? (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-        />
-      </svg>
+          className="lucide lucide-sun-medium-icon lucide-sun-medium"
+        >
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 3v1" />
+          <path d="M12 20v1" />
+          <path d="M3 12h1" />
+          <path d="M20 12h1" />
+          <path d="m18.364 5.636-.707.707" />
+          <path d="m6.343 17.657-.707.707" />
+          <path d="m5.636 5.636.707.707" />
+          <path d="m17.657 17.657.707.707" />
+        </svg>
+      ) : (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="lucide lucide-moon-icon lucide-moon"
+        >
+          <path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401" />
+        </svg>
+      )}
     </button>
   );
 };

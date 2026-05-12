@@ -53,20 +53,38 @@ export const Navigations = () => {
           }}
           className="w-[97px] h-[36px] flex justify-evenly items-center border border-gray-200 rounded-lg"
         >
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 16 16"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M4 6L8 10L12 6"
-              stroke="#18181B"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+          {" "}
+          {theme === "light" ? (
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M4 6L8 10L12 6"
+                stroke="#18181B"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          ) : (
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="fill"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M4 6L8 10L12 6"
+                stroke="#FFFFFF"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          )}
           Genre
         </button>
         <div
@@ -114,13 +132,13 @@ export const Navigations = () => {
         ></input>
         {moviesearch.length === 0 && query !== "" ? (
           <div
-            className={`bg-white border border-gray-50 absolute top-12 rounded-lg flex justify-center items-center mt-4 flex-col gap-2  px-4 w-[577px] h-[100px] z-50 ${query.length > 0 ? "visible" : "invisible"} dark:bg-black `}
+            className={`bg-white border border-gray-50 absolute top-12 rounded-lg flex justify-center items-center mt-7 flex-col gap-2  px-4 w-[577px] h-[100px] z-50 ${query.length > 0 ? "visible" : "invisible"} dark:bg-black `}
           >
             No results found.
           </div>
         ) : (
           <div
-            className={`bg-white border border-gray-50 absolute top-12 rounded-lg gap-2  w-[577px] min-h-[128px] mt-4 z-50 ${query.length > 0 ? "visible" : "invisible"} dark:bg-black`}
+            className={`bg-white border border-gray-50 absolute top-12 rounded-lg gap-2  w-[577px] min-h-[128px] mt-7 z-50 ${query.length > 0 ? "visible" : "invisible"} dark:bg-black`}
           >
             {moviesearch.slice(0, 5).map((movsearch) => (
               <Link
