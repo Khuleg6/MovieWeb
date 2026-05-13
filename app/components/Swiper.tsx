@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Movie, VideoResult } from "../types";
-import { Button } from "@/components/ui/button";
+
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogHeader,
   DialogTrigger,
@@ -37,7 +36,7 @@ export const SwiperM = ({ trend }: { trend: Movie }) => {
         />
       </Link>
 
-      <div className="absolute z-2 left-[340px] top-[258px] gap-10">
+      <div className="absolute z-2  top-[258px] left-50 gap-10">
         <p className="text-white font-normal leading-6 text-[18px]">
           Now Playing:
         </p>
