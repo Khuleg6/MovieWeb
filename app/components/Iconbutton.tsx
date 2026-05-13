@@ -4,6 +4,7 @@ import React from "react";
 
 export const Iconbutton = () => {
   const { theme, setTheme } = useTheme();
+
   return (
     <button
       onClick={() => {
@@ -11,7 +12,6 @@ export const Iconbutton = () => {
       }}
       className="flex justify-center items-center gap-2 border border-[#E4E4E7] h-8 w-8 rounded-md bg-white dark:bg-gray-900"
     >
-      {" "}
       {theme === "light" ? (
         <svg
           xmlns="http://www.w3.org/2000/svg"

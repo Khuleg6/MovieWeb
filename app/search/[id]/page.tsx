@@ -1,25 +1,22 @@
 "use client";
 import { Card } from "@/app/components/Card";
 import { Footer } from "@/app/components/Footer";
-import { Iconbutton } from "@/app/components/Iconbutton";
-import { Logo } from "@/app/components/Logo";
+
 import { Navigations } from "@/app/components/navigations";
 import { Paginationultra } from "@/app/components/pagination";
 
-import { Genres, Movie, MovieSearch } from "@/app/types";
+import { Genres, Movie } from "@/app/types";
 import axios from "axios";
-import { Star } from "lucide-react";
+
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
-  const [moviesearch, setMovieSearch] = useState<MovieSearch[]>([]);
+  const [moviesearch, setMovieSearch] = useState<Movie[]>([]);
   const [genres, setGenres] = useState<Genres[]>([]);
   const params = useParams();
   const searchId = decodeURIComponent(params.id as string);
-  const [isVisbile, setisVisible] = useState(false);
-  const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
 
   useEffect(() => {
@@ -46,7 +43,14 @@ export default function Home() {
       <div className="container mx-auto flex pt-20 gap-7  ">
         <div className="grid grid-cols-4 grid-rows-2 gap-10">
           {moviesearch.slice(0, 12).map((movie) => (
-            <Card key={movie.id} upcome={movie} size="w-[250px]" />
+            <Card
+              key={movie.id}
+              id={movie.id}
+              title={movie.title}
+              poster={movie.poster_path}
+              rating={movie.vote_average}
+              size="w-[250px]"
+            />
           ))}
         </div>
         <div className="flex flex-wrap  gap-4 w-[350px] h-[250px]">

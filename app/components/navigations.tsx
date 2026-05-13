@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Genres, MovieSearch } from "../types";
+import { Genres, Movie } from "../types";
 import { Logo } from "./Logo";
 import Link from "next/link";
 import { Iconbutton } from "./Iconbutton";
@@ -9,7 +9,7 @@ import { Star } from "./Star";
 import { useTheme } from "next-themes";
 
 export const Navigations = () => {
-  const [moviesearch, setMovieSearch] = useState<MovieSearch[]>([]);
+  const [moviesearch, setMovieSearch] = useState<Movie[]>([]);
   const [genres, setGenres] = useState<Genres[]>([]);
   const [isVisbile, setisVisible] = useState(false);
   const [query, setQuery] = useState("");
@@ -158,7 +158,7 @@ export const Navigations = () => {
                     <p className="text-[20px] font-semibold leading-[28xpx]">
                       {movsearch.title}{" "}
                     </p>
-                    <Star movie={movsearch} />
+                    <Star rating={movsearch.vote_average} />
                     <p className="text-[14px] font-medium leading-5 pt-3">
                       {movsearch.release_date?.split("-")[0]}
                     </p>

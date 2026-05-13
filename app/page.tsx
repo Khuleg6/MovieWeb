@@ -4,7 +4,7 @@ import { Upcoming } from "./components/Upcoming";
 import { Card } from "./components/Card";
 import { Footer } from "./components/Footer";
 import { useEffect, useState } from "react";
-import { Genres, Movie, MovieSearch } from "./types";
+import { Movie } from "./types";
 
 import Link from "next/link";
 
@@ -12,7 +12,6 @@ import { Navigations } from "./components/navigations";
 
 export default function Home() {
   const [toprated, setTopRated] = useState<Movie[]>([]);
-
   const [upcoming, setUpcoming] = useState<Movie[]>([]);
   const [popular, setPopular] = useState<Movie[]>([]);
 
@@ -82,8 +81,15 @@ export default function Home() {
         </div>
 
         <div className="grid grid-cols-5 grid-rows-2 w-[2100px] w-fit relative gap-10 items-center justify-center px-20">
-          {upcoming.slice(0, 10).map((upcome) => (
-            <Card size="w-[270px]" upcome={upcome} key={upcome.id} />
+          {upcoming.slice(0, 10).map((movie) => (
+            <Card
+              size="w-[270px]"
+              key={movie.id}
+              id={movie.id}
+              title={movie.title}
+              poster={movie.poster_path}
+              rating={movie.vote_average}
+            />
           ))}
         </div>
         <div className="container flex justify-between w-full">
@@ -116,8 +122,15 @@ export default function Home() {
           </div>
         </div>
         <div className=" grid grid-cols-5 grid-rows-2 w-[2100px] w-fit gap-10 items-center justify-center px-20 ">
-          {popular.slice(0, 10).map((upcome) => (
-            <Card size="w-[270px]" upcome={upcome} key={upcome.id} />
+          {popular.slice(0, 10).map((movie) => (
+            <Card
+              size="w-[270px]"
+              key={movie.id}
+              id={movie.id}
+              title={movie.title}
+              poster={movie.poster_path}
+              rating={movie.vote_average}
+            />
           ))}
         </div>
         <div className="container flex justify-between w-full">
@@ -149,9 +162,16 @@ export default function Home() {
             </Link>
           </div>
         </div>
-        <div className=" grid grid-cols-5 grid-rows-2 w-[2100px] w-fit gap-10 items-center justify-center px-20 ">
-          {toprated.slice(0, 10).map((upcome) => (
-            <Card size="w-[270px]" upcome={upcome} key={upcome.id} />
+        <div className=" grid grid-cols-5 grid-rows-2 w-[2100px] w-fit gap-10 items-center justify-center px-20  ">
+          {toprated.slice(0, 10).map((movie) => (
+            <Card
+              size="w-[270px]"
+              key={movie.id}
+              id={movie.id}
+              title={movie.title}
+              poster={movie.poster_path}
+              rating={movie.vote_average}
+            />
           ))}
         </div>
       </div>

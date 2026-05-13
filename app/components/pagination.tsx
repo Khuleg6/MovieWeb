@@ -8,7 +8,13 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-export const Paginationultra = ({ page, setPage }) => {
+export const Paginationultra = ({
+  page,
+  setPage,
+}: {
+  page: number;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
+}) => {
   let Pages = [];
   if (page <= 2) {
     Pages = [1, 2, 3];

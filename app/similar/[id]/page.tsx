@@ -3,9 +3,9 @@ import { Card } from "@/app/components/Card";
 import { Footer } from "@/app/components/Footer";
 import { Navigations } from "@/app/components/navigations";
 import { Paginationultra } from "@/app/components/pagination";
-import { Morelike, Movie, MovieDetails } from "@/app/types";
+import { MovieDetails } from "@/app/types";
 import { useParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const [morelikethis, setMorelikethis] = useState<MovieDetails[]>([]);
@@ -32,8 +32,15 @@ export default function Home() {
         </p>
       </div>
       <div className="container mx-auto grid grid-cols-5 grid-rows-2 gap-10">
-        {morelikethis?.map((more) => (
-          <Card upcome={more} key={more.id} size="w-[280px]" />
+        {morelikethis?.map((movie) => (
+          <Card
+            key={movie.id}
+            id={movie.id}
+            title={movie.title}
+            poster={movie.poster_path}
+            rating={movie.vote_average}
+            size="w-[280px]"
+          />
         ))}
       </div>
       <div className="flex justify-end px-83 py-6">

@@ -1,26 +1,20 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import Link from "next/link";
+
 import axios from "axios";
-import { Genres, Movie, MovieSearch } from "@/app/types";
-import { Logo } from "@/app/components/Logo";
-import { Iconbutton } from "@/app/components/Iconbutton";
+import { Genres, Movie } from "@/app/types";
+
 import { Card } from "@/app/components/Card";
 import { Footer } from "@/app/components/Footer";
 import { Paginationultra } from "@/app/components/pagination";
-import { Star } from "@/app/components/Star";
+
 import { Navigations } from "@/app/components/navigations";
 
 export default function Home() {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
-
-  const [moviesearch, setMovieSearch] = useState<MovieSearch[]>([]);
   const [genres, setGenres] = useState<Genres[]>([]);
-  const [isVisbile, setisVisible] = useState(false);
-  const [query, setQuery] = useState("");
-
   const [page, setPage] = useState(1);
   const { id } = useParams();
 
@@ -101,7 +95,14 @@ export default function Home() {
           <h1 className="text-xs font-semibold mb-6">Genre: {id}</h1>
           <div className="flex gap-10 flex-wrap">
             {movies.slice(0, 12).map((movie) => (
-              <Card size="w-[300px]" key={movie.id} upcome={movie} />
+              <Card
+                size="w-[300px]"
+                key={movie.id}
+                id={movie.id}
+                title={movie.title}
+                poster={movie.poster_path}
+                rating={movie.vote_average}
+              />
             ))}
           </div>
         </div>

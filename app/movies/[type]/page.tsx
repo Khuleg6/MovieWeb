@@ -1,12 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { Genres, Movie, MovieSearch } from "@/app/types";
+import { Movie } from "@/app/types";
 import { Card } from "@/app/components/Card";
 import { Footer } from "@/app/components/Footer";
 import { Paginationultra } from "@/app/components/pagination";
 
-import { Star } from "@/app/components/Star";
 import { Navigations } from "@/app/components/navigations";
 
 export default function Home() {
@@ -48,8 +47,15 @@ export default function Home() {
         </div>
 
         <div className="grid grid-cols-5 grid-rows-2 w-[2100px] w-fit relative gap-10 items-center justify-center px-20">
-          {movies.map((upcome) => (
-            <Card size="w-[270px]" upcome={upcome} key={upcome.id} />
+          {movies.map((movie) => (
+            <Card
+              size="w-[270px]"
+              key={movie.id}
+              id={movie.id}
+              title={movie.title}
+              poster={movie.poster_path}
+              rating={movie.vote_average}
+            />
           ))}
         </div>
       </div>

@@ -1,6 +1,6 @@
 "use client"; // Хэрэв Next.js ашиглаж байгаа бол заавал бичнэ
-import React, { useEffect, useState } from "react";
-import { Movie, MovieSearch, VideoResult } from "../types";
+import { useEffect, useState } from "react";
+import { Movie, VideoResult } from "../types";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 

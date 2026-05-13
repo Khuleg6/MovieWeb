@@ -1,7 +1,6 @@
-import React from "react";
 import { Movie } from "../types";
 
-export const Star = ({ movie }: { movie: Movie }) => {
+export const Star = ({ rating }: { rating: number }) => {
   return (
     <div>
       <div className="flex items-center gap-1">
@@ -21,7 +20,7 @@ export const Star = ({ movie }: { movie: Movie }) => {
           />
         </svg>
         <span className="text-[15px] font-semibold m-0">
-          {movie?.vote_average.toFixed(1)}
+          {rating ? rating.toFixed(1) : "0.0"}
         </span>
         <span className="text-[13px] text-gray-400 ml-0">/10</span>
       </div>

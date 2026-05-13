@@ -4,7 +4,7 @@ import { Card } from "@/app/components/Card";
 import { Footer } from "@/app/components/Footer";
 import { Navigations } from "@/app/components/navigations";
 import { Star } from "@/app/components/Star";
-import { Morelike, Movie, MovieDetails, MovieSearch } from "@/app/types";
+import { Morelike, MovieDetails } from "@/app/types";
 import Link from "next/link";
 
 import { useParams } from "next/navigation";
@@ -13,7 +13,6 @@ export default function Home() {
   const { id } = useParams();
   const [movie, setMovie] = useState<MovieDetails | null>(null);
   const [morelikethis, setMorelikethis] = useState<Morelike[]>([]);
-  const [mgenre, setmGenre] = useState<MovieDetails[]>([]);
 
   const formatRuntime = (runtime?: number) => {
     if (!runtime) return "";
@@ -30,9 +29,8 @@ export default function Home() {
       .then((res) => res.json())
       .then((data) => {
         setMovie(data);
-        setmGenre(data.genres);
       });
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     fetch(
@@ -42,7 +40,7 @@ export default function Home() {
       .then((data) => {
         setMorelikethis(data.results);
       });
-  }, []);
+  }, [id]);
 
   return (
     <div className=" w-full flex just-center flex-col items-center">
@@ -59,9 +57,7 @@ export default function Home() {
           </div>
           <div className="flex flex-col items-start">
             <p>Rating</p>
-            <div>
-              <Star />
-            </div>
+            <div>{movie && <Star rating={movie.vote_average} />}</div>
             <div className="flex h-12 items-center gap-1">
               <p>{movie?.vote_average.toFixed(1)}/10</p>
               <div>
@@ -87,7 +83,7 @@ export default function Home() {
       </div>
       <div className="container mx-auto flex  flex-col gap-10">
         <div className="mt-8 flex gap-2">
-          {mgenre.map((genre) => (
+          {movie?.genres?.map((genre) => (
             <div key={genre.id}>
               <button className="flex py-0.5 text-xs leading-4 font-semibold   px-2.5 gap-2.5 rounded-full border border-gray-300">
                 {genre.name}
@@ -147,8 +143,15 @@ export default function Home() {
       </div>
 
       <div className=" grid grid-cols-5 mx-auto w-fit gap-10 items-center justify-center px-20 ">
-        {morelikethis.slice(0, 5).map((upcome) => (
-          <Card size="w-[280px]" upcome={upcome} key={upcome.id} />
+        {morelikethis.slice(0, 5).map((movie) => (
+          <Card
+            size="w-[280px]"
+            key={movie.id}
+            id={movie.id}
+            title={movie.title}
+            poster={movie.poster_path}
+            rating={movie.vote_average}
+          />
         ))}
       </div>
 

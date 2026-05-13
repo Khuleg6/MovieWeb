@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-
 export const Logo = ({ isDark = false }) => {
   return (
     <div>
