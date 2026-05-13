@@ -75,38 +75,21 @@ export const SwiperM = ({ trend }: { trend: Movie }) => {
         </p>
         <Dialog>
           <DialogTrigger asChild>
-            <button className="h-[40px] py-[8px] px-[16px] bg-white rounded-md flex items-center gap-1.5 dark:bg-black ">
-              {theme === "light" ? (
-                <svg
-                  width="11"
-                  height="13"
-                  viewBox="0 0 11 13"
-                  fill="fill"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M0.5 0.5L9.83333 6.5L0.5 12.5V0.5Z"
-                    stroke="#18181B"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              ) : (
-                <svg
-                  width="11"
-                  height="13"
-                  viewBox="0 0 11 13"
-                  fill="#FFFFFF"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M0.5 0.5L9.83333 6.5L0.5 12.5V0.5Z"
-                    stroke="#18181B"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              )}
+            <button className="h-[40px] py-[8px] px-[16px] bg-white rounded-md flex items-center gap-1.5 ">
+              <svg
+                width="11"
+                height="13"
+                viewBox="0 0 11 13"
+                fill="fill"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M0.5 0.5L9.83333 6.5L0.5 12.5V0.5Z"
+                  stroke="#18181B"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
               Watch Trailer
             </button>
           </DialogTrigger>
