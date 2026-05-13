@@ -11,7 +11,7 @@ import {
 import axios from "axios";
 import Link from "next/link";
 
-export const SwiperM = ({ trend, theme }: { trend: Movie }) => {
+export const SwiperM = ({ trend }: { trend: Movie }) => {
   const [trailer, setTrailer] = useState<VideoResult[]>([]);
 
   useEffect(() => {
